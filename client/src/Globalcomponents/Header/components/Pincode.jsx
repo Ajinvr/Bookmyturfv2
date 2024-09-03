@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import editicon from '../../../assets/editicon.svg';
+
 
 
 function Pincode() {
@@ -45,7 +45,7 @@ function Pincode() {
           <div className='flex items-center gap-2'>
                <span className='font-bold text-white'>{pincode}</span>
            
-               <img onClick={handleEdit} className='h-3' src={editicon} alt="" />
+               <img onClick={handleEdit} className='h-3' src="https://res.cloudinary.com/dibkjqtbx/image/upload/v1725377603/staticimages/zkkrklx6rl637nm6oek8.svg" alt="" />
            
           </div>
         )}
