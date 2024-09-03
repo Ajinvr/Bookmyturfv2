@@ -17,14 +17,21 @@ const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 
-const corsOptions = {
-  origin: 'https://bookmyturfv2-frontend-3oev3hhy9-ajin-vrs-projects.vercel.app', 
-  credentials: true, 
-  optionsSuccessStatus: 200 
-};
+const allowedOrigins = [
+  'https://bookmyturfv2-frontend-3oev3hhy9-ajin-vrs-projects.vercel.app'
+];
 
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
