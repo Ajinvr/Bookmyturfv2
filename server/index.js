@@ -18,7 +18,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://bookmyturfv2-frontend-3oev3hhy9-ajin-vrs-projects.vercel.app/',
 }));
 
 
