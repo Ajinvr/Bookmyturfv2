@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
                               let id = newuser._id
                               
                               let token = await tokengenerate(email,id)
-
+                              let token1ff = await tokengenerate(email,id)
 
                          res.status(201).cookie("token",token).json({ msg: 'Sign up successful' ,ts:"success",email,id,token});
                        } catch (error) {
