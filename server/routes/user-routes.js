@@ -11,6 +11,6 @@ router.route('/login').post(login)
 router.route('/profile').get(userAuth,userProfile)
 router.route('/addReview').post(userAuth,addReview)
 router.route('/userCheck').post(usercheck)
-// router.route('/userCheck').post(usercheck)
+
 
 export default router;
