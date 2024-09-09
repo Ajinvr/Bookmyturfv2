@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../../assets/logo.png";
 import axiosInstance from '../../Utils/axiosInstance'; 
 import { toast } from 'react-hot-toast';
-import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { login } from '../../Utils/Redux/Features/authSlice';
 
 function Login() {
   const navigate = useNavigate();
@@ -11,24 +12,24 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
+  const dispatch = useDispatch();
+
   const notify = (msg, status) => {
     status === 'success' ? toast.success(msg) : toast.error(msg);
   };
 
-  const login = async () => {
+  const loginHandle = async () => {
     try {
       const response = await axiosInstance.post('/api/login', {
         email,
         password
       });
 
-
-      Cookies.set('token', response.data.token); 
-      
-      let userdata = JSON.parse(localStorage.getItem('userdata'));
-      userdata.isAuthenticated = true
+      let userdata = JSON.parse(localStorage.getItem('userdata')) || {};
+      userdata.isAuthenticated = true;
       localStorage.setItem('userdata', JSON.stringify(userdata));
 
+      dispatch(login());
 
       notify(response.data.msg, response.data.ts);
 
@@ -37,8 +38,6 @@ function Login() {
       }, 1000);
 
     } catch (error) {
-      console.log(error);
-      
       const msg = error.response?.data?.msg || "Internal Server Error";
       const ts = error.response?.data?.ts || "error";
       notify(msg, ts);
@@ -47,7 +46,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     let validationErrors = {};
 
     if (!email) {
@@ -63,7 +62,7 @@ function Login() {
     }
 
     if (Object.keys(validationErrors).length === 0) {
-      login();
+      loginHandle();
     } else {
       setErrors(validationErrors);
     }
@@ -90,7 +89,7 @@ function Login() {
                 type="email"
                 id="email"
                 value={email}
-                onChange={(e) => {setEmail(e.target.value); setErrors({})}}
+                onChange={(e) => { setEmail(e.target.value); setErrors({}) }}
                 className="mt-1 block w-full px-3 py-2 rounded-md placeholder-gray-400 sm:text-sm outline-none"
                 placeholder="Enter your email"
               />
@@ -109,15 +108,15 @@ function Login() {
               />
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             </div>
-   
+
             <br />
             <br />
 
             <button type="submit" className="w-full bg-black text-white py-2 px-4 rounded-md">Login</button>
           
           </form>
-          <div  className='text-neutral text-center text-sm mt-2'>
-            <Link to='/signup'>Don't Have an account ?</Link>
+          <div className='text-neutral text-center text-sm mt-2'>
+            <Link to='/signup'>Don't have an account?</Link>
           </div>
         </div>
         

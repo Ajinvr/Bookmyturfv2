@@ -1,41 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import React from 'react';
 import NavigateLink from './NavigateLink';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../../Utils/axiosInstance';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../../Utils/Redux/Features/authSlice';
 
 function Login() {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  let navigate = useNavigate()
- 
-  const [isauth, setisauth] = useState(false)
-  useEffect(() => {
-  let userdata = JSON.parse(localStorage.getItem('userdata'));
-  if (userdata?.isAuthenticated === true) {
-  setisauth(true)
-  }else{
-    false
-  }
-  },[])
- 
-    
-
-  function handleClick() {
-      Cookies.remove('token'); 
+  async function handleClick() {
+    try {
+      await axiosInstance.post('/api/userLogout');
+      
       let userdata = JSON.parse(localStorage.getItem('userdata'));
-      userdata.isAuthenticated = false
+      userdata.isAuthenticated = false;
       localStorage.setItem('userdata', JSON.stringify(userdata));
-      setisauth(false)
-      navigate('/')
+      
+      dispatch(logout());
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <div>
-      {isauth? (
-         <div className='p-2' >
-        
-           <h1 onClick={handleClick}>Logout</h1>
-        
-       </div>
+      {isAuthenticated ? (
+        <div className='p-2'>
+          <h1 className='cursor-pointer' onClick={handleClick}>Logout</h1>
+        </div>
       ) : (
         <NavigateLink text={'Login'} path={'/login'} />
       )}

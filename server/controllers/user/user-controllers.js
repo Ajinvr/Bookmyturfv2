@@ -40,9 +40,14 @@ export const signup = async (req, res) => {
                               let id = newuser._id
                               
                               let token = await tokengenerate(email,id)
-                              let token1ff = await tokengenerate(email,id)
 
-                         res.status(201).cookie("token",token).json({ msg: 'Sign up successful' ,ts:"success",email,id,token});
+                              res.cookie("token", token, {
+                                sameSite: "None",
+                                secure: true,
+                                httpOnly: true,
+                              });
+
+                         res.status(201).json({ msg: 'Sign up successful' ,ts:"success",email,id,token});
                        } catch (error) {
                          res.status(500).json({ msg : 'Server error try again' ,ts:"error" });
                        }
@@ -74,7 +79,13 @@ export const login = async (req, res) => {
                                    let id = Existinguser._id 
                                    let token = await tokengenerate(email,id) 
 
-               return res.status(200).cookie("token",token).json({ msg: 'Login successful',ts:"success",email,id,token});
+                                   res.cookie("token", token, {
+                                    sameSite: "None",
+                                    secure: true,
+                                    httpOnly: true,
+                                   });
+
+                               return res.status(200).json({ msg: 'Login successful',ts:"success",email,id,token});
              } catch (error) {
              
               
@@ -112,9 +123,9 @@ export const userProfile = async (req, res) => {
 
 
 export const usercheck = (req, res, next) => {
+
   try {
       const { token } = req.cookies;
-
 
       if (!token) return res.status(400).json({ success: false, isAuthenticated: false, msg: "User not authenticated", ts: "error" });
 
@@ -127,5 +138,20 @@ export const usercheck = (req, res, next) => {
   } catch (error) {
       console.log(error);
       return res.status(500).json({ success: false, isAuthenticated: false, msg: "Internal server error", ts: "error" });
+  }
+};
+
+
+export const userLogout = async (req, res, next) => {
+  try {
+      res.clearCookie("token", {
+          sameSite: "None",
+          secure: true,
+          httpOnly: true,
+      });
+
+      res.json({ success: true, message: "user logout successfully" });
+  } catch (error) {
+      res.status(error.status || 500).json({ message: error.message || "Internal server error" });
   }
 };

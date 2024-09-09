@@ -5,9 +5,9 @@ import Card from './components/Card'
 
 function Home() {
   return (
-    <div className='mt-3'>
+    <div>
         <Carousel/>
-            
+          <h1 className='text-3xl font-extrabold ml-3 text-accent'>Near you</h1>
         <Card/>
     </div>
   )

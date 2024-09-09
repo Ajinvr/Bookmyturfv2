@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import Logo from "../../assets/logo.png";
 import axiosInstance from '../../Utils/axiosInstance'; 
-import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { login } from '../../Utils/Redux/Features/authSlice';
 
 function Signup() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+
+  const dispatch = useDispatch();
 
   const notify = (msg, status) => {
     status === 'success' ? toast.success(msg) : toast.error(msg);
@@ -22,14 +25,16 @@ function Signup() {
         email,
         password
       });
-      Cookies.set('token', response.data.token);
       
-      let userdata = JSON.parse(localStorage.getItem('userdata'));
-      userdata.isAuthenticated = true
+      let userdata = JSON.parse(localStorage.getItem('userdata')) || {};
+      userdata.isAuthenticated = true;
       localStorage.setItem('userdata', JSON.stringify(userdata));
       
+      dispatch(login());
+
       notify(response.data.msg, response.data.ts);
       setTimeout(() => navigate('/'), 500);
+
     } catch (error) {
       const msg = error.response?.data?.msg || 'An unexpected error occurred';
       const ts = error.response?.data?.ts || 'error';
@@ -123,8 +128,8 @@ function Signup() {
             <button type="submit" className="w-full bg-black text-white py-2 px-4 rounded-md">Sign Up</button>
           
           </form>
-          <div  className='text-neutral text-center text-sm mt-2'>
-            <Link to='/login'>Already Have an account ?</Link>
+          <div className='text-neutral text-center text-sm mt-2'>
+            <Link to='/login'>Already have an account?</Link>
           </div>
           
         </div>

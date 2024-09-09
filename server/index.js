@@ -18,11 +18,12 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 
 const corsOptions = {
-  origin: ['https://bookmyturfv2-frontend.vercel.app', 'https://bookmyturfv2-frontend-3oev3hhy9-ajin-vrs-projects.vercel.app'],
+  origin: ['https://bookmyturfv2-frontend.vercel.app', 'https://bookmyturfv2-frontend-3oev3hhy9-ajin-vrs-projects.vercel.app', 'http://192.168.1.36:5173', 'http://localhost:5173'],
   credentials: true 
 };
 
 app.use(cors(corsOptions));
+
 
 
 app.use(express.json());
