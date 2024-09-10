@@ -48,6 +48,8 @@ function Slots() {
     const storedDate = localStorage.getItem('selectedDate');
     if (storedDate) {
       setSelectedDate(storedDate);
+    } else {
+      localStorage.setItem('selectedDate', today);
     }
     getslot();
   }, [selectedDate]);

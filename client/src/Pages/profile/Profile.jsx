@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../Utils/axiosInstance';
-import logo from "../../assets/logo.png";
+import pp from "../../assets/image.png";
 import Orders from './Orders';
 
 function Profile() {
@@ -13,7 +13,7 @@ function Profile() {
       try {
         const response = await axiosInstance.get('api/profile');
         setProfile(response.data);
-        console.log(response.data);
+       
         
       } catch (err) {
         setError(err);
@@ -35,7 +35,7 @@ function Profile() {
       <div className='flex flex-col items-center'>
         <img
           className='h-24 w-24 rounded-full border border-gray-300'
-          src={logo}
+          src={pp}
           alt="Profile Logo"
         />
         <h2 className='text-2xl mt-2'>{profile.user.email}</h2>
