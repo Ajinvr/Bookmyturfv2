@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../../../Utils/axiosInstance';
+import { setSelectedSlots } from '../../../Utils/Redux/Features/slotSlice';
 
 function Slots() {
   const today = new Date().toISOString().split('T')[0];
   const [selectedDate, setSelectedDate] = useState(today);
-  const [selectedSlots, setSelectedSlots] = useState([]);
   const [slots, setSlots] = useState([]);
   const [noSlots, setNoSlots] = useState(false);
   const { id } = useParams();
   const turfId = id;
+  const dispatch = useDispatch();
+  const selectedSlots = useSelector(state => state.slots.selectedSlots);
 
   const getslot = async () => {
     try {
@@ -22,25 +25,30 @@ function Slots() {
         setSlots(response.data);
       }
     } catch (error) {
-      console.log(error);
       setNoSlots(true);
     }
   };
 
   const handleDateChange = (e) => {
-    setSelectedDate(e.target.value);
-    setNoSlots(false); 
+    const newDate = e.target.value;
+    setSelectedDate(newDate);
+    setNoSlots(false);
+    localStorage.setItem('selectedDate', newDate);
   };
 
   const toggleSlotSelection = (slot) => {
-    if (selectedSlots.includes(slot)) {
-      setSelectedSlots(selectedSlots.filter((s) => s !== slot));
-    } else {
-      setSelectedSlots([...selectedSlots, slot]);
-    }
+    const updatedSlots = selectedSlots.includes(slot)
+      ? selectedSlots.filter(s => s !== slot)
+      : [...selectedSlots, slot];
+
+    dispatch(setSelectedSlots(updatedSlots));
   };
 
   useEffect(() => {
+    const storedDate = localStorage.getItem('selectedDate');
+    if (storedDate) {
+      setSelectedDate(storedDate);
+    }
     getslot();
   }, [selectedDate]);
 

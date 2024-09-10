@@ -150,8 +150,8 @@ export const userLogout = async (req, res, next) => {
           httpOnly: true,
       });
 
-      res.json({ success: true, message: "user logout successfully" });
+      res.json({msg: "Logout Successful",ts: "success"  });
   } catch (error) {
-      res.status(error.status || 500).json({ message: error.message || "Internal server error" });
+      res.status(error.status || 500).json({ msg: error.message || "Internal server error" , ts:"error"});
   }
 };

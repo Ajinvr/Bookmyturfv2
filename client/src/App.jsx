@@ -11,6 +11,10 @@ import DetailsPage from './Pages/Detailspage/DetailsPage';
 import Protectedroute from "./Utils/Protectedroute";
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from './Utils/Redux/Features/authSlice';
+import ManagerLogin from './Pages/Login/ManagerLogin';
+import ManagerSignup from './Pages/Signup/ManagerSignup';
+import ManagerHeader from './Globalcomponents/Header/ManagerHeader';
+import ManagerProtectedroute from './Utils/ManagerProtectedroute';
 
 function App() {
 
@@ -35,34 +39,33 @@ function App() {
 
   return (
         <Router>
-                <Header/>
-                      <Toaster position="top-right" reverseOrder={false}/>  
-                            <Routes>
-                                  <Route path="/" element={<Home/>} />
-                                  <Route path="/details/:id" element={<DetailsPage/>} />
+            <Toaster position="top-right" reverseOrder={false}/>  
+                    <Routes>    
+                        <Route path="/" element={<> <Header/> <Home/> <Footer/> </>} />
+                        <Route path="/details/:id" element={ <> <Header/> <DetailsPage/> <Footer/> </>} />
                                   
-                                  <Route path="/login" element={<Login/>} />
-                                  <Route path="/signup" element={<Signup/>} />
+                        <Route path="/login" element={  <> <Header/> <Login/> <Footer/> </>} />
+                        <Route path="/signup" element={  <> <Header/> <Signup/> <Footer/> </>} />
+                                  
+                        <Route path="/profile" element= {  <> <Header/> <Protectedroute> <Profile/> </Protectedroute> <Footer/> </>} />
+                                  
+                        <Route path="/managerlogin" element={<ManagerLogin/>} />
+                        <Route path="/managersignup" element={<ManagerSignup/>} />
 
-                                  <Route path="/profile" element= {<Protectedroute> <Profile/> </Protectedroute>} />
+                        <Route path="/manager/assignedTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/manager/assigneTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/manager/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                                   
-                                  <Route path="/admin/allUsers" element= {<Protectedroute> <Profile/> </Protectedroute>} />
-                                  <Route path="/admin/allMangers" element= {<Protectedroute> <Profile/> </Protectedroute>} />
-                                  <Route path="/admin/allOrders" element= {<Protectedroute> <Profile/> </Protectedroute>} />
-                                  <Route path="/admin/allTurf" element= {<Protectedroute> <Profile/> </Protectedroute>} />
-                                  <Route path="/admin/addTurf" element= {<Protectedroute> <Profile/> </Protectedroute>} />
+                        <Route path="/admin/allUsers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/allMangers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/allTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/allTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                           
-                                  <Route path="/manager" element= {<Protectedroute> <Profile/> </Protectedroute>} />
-                                  <Route path="/manager/Allorders" element= {<Protectedroute> <Profile/> </Protectedroute>} />
-                                  <Route path="/manager/AddTurf" element= {<Protectedroute> <Profile/> </Protectedroute>} />
 
-                                  <Route path="/*" element={<div className='h-screen flex justify-center items-center'>
-                                                                 <h1 className='text-5xl text-red-800 font-extrabold uppercase'>404 not found</h1>
-                                                            </div>
-                                                          }/>
+                        <Route path="/*" element={<div className='h-screen flex justify-center items-center'>  <h1 className='text-5xl text-red-800 font-extrabold uppercase'>404 not found</h1></div>}/>
 
-                            </Routes>
-                <Footer/>
+                    </Routes>    
         </Router>
   )
 }
