@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
-    name: {
+    email: {
         type: String,
         required: true,
     },
@@ -18,6 +18,7 @@ const reviewSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 5,
+        default:1
     },
     description: {
         type: String

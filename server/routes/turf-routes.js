@@ -4,6 +4,7 @@ import { managerAuth } from '../middlewares/managerAuthMiddleware.js';
 import { upload }  from '../middlewares/fileUploadMiddleware.js';
 import { createSlots } from '../utils/create-slots.js';
 import { searchTurf } from '../controllers/search/Search.js';
+import { getReviews } from '../controllers/user/review-contoller.js';
 
 const router = express.Router();
 
@@ -15,6 +16,6 @@ router.route('/editTurf/:id').patch(managerAuth,upload.single('file'),editTurf)
 router.route('/deleteTurf/:id').delete(managerAuth,deleteTurf)
 router.route('/createSlots/:key').get(createSlots)
 router.route('/searchturf').get(searchTurf)
-
+router.route('/getreview/:id').get(getReviews)
 
 export default router;
