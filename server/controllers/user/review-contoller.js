@@ -25,15 +25,20 @@ export const getReviews = async (req, res) => {
 // add review ==========
 export const addReview = async (req, res) => {
   const { rating, description, turfId } = req.body;
-
-  const {id,email} = req.user;
+  const { id, email } = req.user;
 
   try {
-    await review.create({ email,turfId, userid:id, rating, description});
+  
+    const existingReview = await review.findOne({ userid: id, turfId });
+
+    if (existingReview) {
+      return res.status(400).json({ msg: "Your review already exists", ts: "error" });
+    }
+
+    await review.create({ email, turfId, userid: id, rating, description });
     return res.status(201).json({ msg: "Review added successfully", ts: "success" });
   } catch (error) {
     console.log(error);
-    
     return res.status(500).json({ msg: "Server error", ts: "error" });
   }
 };

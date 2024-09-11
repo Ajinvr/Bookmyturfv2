@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../Utils/axiosInstance';
 import Slots from './Slots/Slots';
@@ -9,6 +9,9 @@ import Review from './Review/Review';
 
 function DetailsPage() {
   const { id } = useParams();
+  let navigate = useNavigate()
+  const location = useLocation();
+
   const selectedSlots = useSelector(state => state.slots.selectedSlots);
 
   useEffect(() => {
@@ -17,6 +20,8 @@ function DetailsPage() {
 
   const fetchDetails = async () => {
     const response = await axiosInstance.get(`/api/turf/getTurf/${id}`);
+    let rent = response.data.turfs.rent
+    localStorage.setItem('rent',rent)
     return response.data.turfs;
   };
 
@@ -30,8 +35,8 @@ function DetailsPage() {
       toast.error('Please select at least one slot to book.');
       return;
     }
-    
-    toast.success('Booking successful!');
+   
+    navigate(`/details/bookinconfirm/${id}`, { state: { from: location.pathname } });
   };
 
   return (
