@@ -30,7 +30,7 @@ function DetailsPage() {
       toast.error('Please select at least one slot to book.');
       return;
     }
-    // Handle booking logic here
+    
     toast.success('Booking successful!');
   };
 
