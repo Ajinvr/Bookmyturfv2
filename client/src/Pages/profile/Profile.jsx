@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../Utils/axiosInstance';
 import pp from "../../assets/image.png";
 import Orders from './Orders';
+import Loader from '../../Globalcomponents/Loader/Loader'
 
 function Profile() {
   const [profile, setProfile] = useState(null);
@@ -25,7 +26,7 @@ function Profile() {
     fetchProfile();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader/>;
   if (error) return <p>Error loading profile: {error.message}</p>;
 
   return (
