@@ -6,6 +6,7 @@ import axiosInstance from '../../Utils/axiosInstance';
 import Slots from './Slots/Slots';
 import toast, { Toaster } from 'react-hot-toast';
 import Review from './Review/Review';
+import Loader from '../../Globalcomponents/Loader/Loader';
 
 function DetailsPage() {
   const { id } = useParams();
@@ -14,9 +15,6 @@ function DetailsPage() {
 
   const selectedSlots = useSelector(state => state.slots.selectedSlots);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const fetchDetails = async () => {
     const response = await axiosInstance.get(`/api/turf/getTurf/${id}`);
@@ -27,7 +25,7 @@ function DetailsPage() {
 
   const { data: details, isLoading, isError, error } = useQuery(['turfDetails', id], fetchDetails);
 
-  if (isLoading) return <h1>Loading ...</h1>;
+  if (isLoading) return <Loader/>;
   if (isError) return <p>{error.message || 'An error occurred'}</p>;
 
   const handleBooking = () => {
@@ -62,7 +60,7 @@ function DetailsPage() {
         </div>
       </div>
 
-      <Slots />
+      <Slots/>
      <Review/>
     </>
   );

@@ -33,6 +33,7 @@ function Slots() {
     const newDate = e.target.value;
     setSelectedDate(newDate);
     setNoSlots(false);
+    dispatch(setSelectedSlots([]));
     localStorage.setItem('selectedDate', newDate);
   };
 
@@ -68,10 +69,10 @@ function Slots() {
       </div>
 
       <div className='flex flex-wrap p-4 mt-10'>
-        {noSlots ? (
-          <h1>No slots available ....</h1>
-        ) : (
-          slots
+          {noSlots ? (
+                  <h1>No slots available ....</h1>
+           ) : (
+           slots
             .filter(slot => slot.status === 'available')
             .map((slot, index) => (
               <div
@@ -81,10 +82,11 @@ function Slots() {
                 }`}
                 onClick={() => toggleSlotSelection(slot)}
               >
+
                 {slot.timeRange}
               </div>
             ))
-        )}
+            )}
       </div>
     </div>
   );

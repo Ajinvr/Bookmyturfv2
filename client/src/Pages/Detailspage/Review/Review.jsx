@@ -7,16 +7,16 @@ function Review() {
   const [reviews, setReviews] = useState([]);
   const { id } = useParams();
 
+  const fetchReviews = async () => {
+    try {
+        const response = await axiosInstance.get(`/api/turf/getreview/${id}`);
+        setReviews(response.data);
+    }catch (error) {
+     console.log('Error fetching reviews:', error);
+    }
+   };
+
   useEffect(() => {
-   
-    const fetchReviews = async () => {
-       try {
-           const response = await axiosInstance.get(`/api/turf/getreview/${id}`);
-           setReviews(response.data);
-       }catch (error) {
-        console.log('Error fetching reviews:', error);
-       }
-      };
         fetchReviews();
     }, [id]);
 

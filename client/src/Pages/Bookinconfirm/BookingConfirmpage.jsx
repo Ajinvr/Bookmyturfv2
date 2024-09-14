@@ -5,6 +5,7 @@ import { setSelectedSlots } from '../../Utils/Redux/Features/slotSlice';
 
 function BookingConfirmpage() {
 
+ 
   const selectedDate = localStorage.getItem('selectedDate');
   const selectedSlots = useSelector((state) => state.slots.selectedSlots); 
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function BookingConfirmpage() {
       <h2 className='font-bold text-xl mt-4'>Total Amount: ₹{totalAmount}</h2>
 
       <button className='bg-accent text-secondary py-2 px-4 rounded-lg font-bold text-xl w-full mt-6'>Confirm booking</button>
+      <button onClick={handleEdit} className='bg-accent text-red-600 py-2 px-4 rounded-lg font-bold text-xl w-full mt-6'>Cancel</button>
     </div>
   );
 }

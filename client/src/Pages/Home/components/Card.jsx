@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Utils/axiosInstance'; 
 import { useQuery } from 'react-query';
+import Loader from '../../../Globalcomponents/Loader/Loader';
 
 function Turf() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function Turf() {
     navigate(`/details/${id}`);
   };
 
-  if (isLoading) return <h1>loading...</h1>;
+  if (isLoading) return <Loader/>;
 
   if (isError) return <h1>error occurred</h1>;
 
