@@ -16,6 +16,7 @@ import ManagerSignup from './Pages/Signup/ManagerSignup';
 import ManagerHeader from './Globalcomponents/Header/ManagerHeader';
 import ManagerProtectedroute from './Utils/ManagerProtectedroute';
 import BookingConfirmpage from './Pages/Bookinconfirm/BookingConfirmpage';
+import Searchpage from './Pages/Seachpage/Searchpage';
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
                     <Routes>    
                         <Route path="/" element={<> <Header/> <Home/> <Footer/> </>} />
                         <Route path="/details/:id" element={ <> <Header/> <DetailsPage/> <Footer/> </>} />
+                        <Route path="/search/:query" element={ <> <Header/> <Searchpage/> <Footer/> </>} />
                         <Route path="/details/bookinconfirm/:id" element={ <> <Header/> <BookingConfirmpage/> <Footer/> </>} />
                                   
                         <Route path="/login" element={  <> <Header/> <Login/> <Footer/> </>} />

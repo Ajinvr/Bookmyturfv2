@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from 'react-query';
 import axiosInstance from '../../Utils/axiosInstance';
 import pp from "../../assets/image.png";
 import Orders from './Orders';
 import Loader from '../../Globalcomponents/Loader/Loader'
 
 function Profile() {
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: profile, error, isLoading } = useQuery('profile', async () => {
+    const response = await axiosInstance.get('api/profile');
+    return response.data;
+  });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await axiosInstance.get('api/profile');
-        setProfile(response.data);
-       
-        
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
-  if (loading) return <Loader/>;
+  if (isLoading) return <Loader />;
   if (error) return <p>Error loading profile: {error.message}</p>;
 
   return (

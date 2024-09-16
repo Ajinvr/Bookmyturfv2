@@ -16,7 +16,7 @@ function Home() {
   return (
     <div>
         <Carousel/>
-          <h1 className='text-3xl font-extrabold ml-3 text-accent'>Near you</h1>
+          <h1 className='text-3xl font-extrabold ml-5 text-accent -mt-10'>Near you</h1>
         <Card/>
     </div>
   )

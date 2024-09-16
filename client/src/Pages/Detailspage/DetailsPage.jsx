@@ -28,14 +28,25 @@ function DetailsPage() {
   if (isLoading) return <Loader/>;
   if (isError) return <p>{error.message || 'An error occurred'}</p>;
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (selectedSlots.length === 0) {
       toast.error('Please select at least one slot to book.');
       return;
     }
-   
-    navigate(`/details/bookinconfirm/${id}`, { state: { from: location.pathname } });
+  
+    try {
+      const response = await axiosInstance.post('/api/userCheck'); 
+      console.log(response.data.isAuthenticated);
+      
+      if (response.data.isAuthenticated) {
+        navigate(`/details/bookinconfirm/${id}`, { state: { from: location.pathname } });
+      } 
+
+    } catch (error) { 
+      navigate('/login', { state: { from: location.pathname } });
+    }
   };
+  
 
   return (
     <>
@@ -45,6 +56,7 @@ function DetailsPage() {
         </div>
         <div className="flex-1 md:w-1/2 md:pl-8 lg:pl-12 mt-4 md:mt-0">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-accent">{details?.name}</h1>
+          <p className="text-sm md:text-base lg:text-lg mb-4">Size: {details?.size}</p>
           <p className="text-sm md:text-base lg:text-lg mb-4">Kottayam</p>
           <p className="text-sm md:text-base lg:text-lg mb-4">₹{details?.rent}/hour</p>
 

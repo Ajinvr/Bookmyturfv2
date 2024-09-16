@@ -70,7 +70,9 @@ function Slots() {
 
       <div className='flex flex-wrap p-4 mt-10'>
           {noSlots ? (
-                  <h1>No slots available ....</h1>
+                       <div className='flex items-center justify-center w-screen'>
+                          <h1> Currently No Slots Available...</h1>
+                       </div>    
            ) : (
            slots
             .filter(slot => slot.status === 'available')

@@ -16,7 +16,6 @@ function BookingConfirmpage() {
   const location = useLocation();
   const previousRoute = location.state?.from;
 
-
   const totalAmount = rent * selectedSlots.length;
 
   useEffect(() => {
@@ -25,12 +24,10 @@ function BookingConfirmpage() {
     }
   }, [selectedSlots, navigate, location]);
 
-
   function handleEdit() {
     dispatch(setSelectedSlots([]));
     navigate(previousRoute);
   }
-
 
   return (
     <div className='px-3 py-1 mt-5 md:px-14 md:py-5 text-accent min-h-screen'>

@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../../Utils/axiosInstance';
 import { toast } from 'react-hot-toast';
+import { setReviews } from '../../../Utils/Redux/Features/reviewSlice';
 
 function AddReview() {
   const navigate = useNavigate();
-  const {id} = useParams();
-  const  turfId  = id
+  const { id } = useParams();
+  const turfId = id;
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [isFormVisible, setFormVisible] = useState(false);
 
   const notify = (msg, status) => {
     status === 'success' ? toast.success(msg) : toast.error(msg);
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await axiosInstance.get(`/api/turf/getreview/${id}`);
+      dispatch(setReviews(response.data)); 
+    } catch (error) {
+      console.log('Error fetching reviews:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -25,17 +36,15 @@ function AddReview() {
         description: review,
         turfId,
       });
-      console.log(response.data);
+      await fetchReviews();
       setReview('');
       setRating(0);
       setFormVisible(false);
-
-      notify(response.data.msg, response.data.ts);
-
+      notify(response.data.msg, response.data.ts || 'error');
     } catch (error) {
-        const msg = error.response?.data?.msg || 'An unexpected error occurred';
-        const ts = error.response?.data?.ts || 'error';
-        notify(msg, ts);
+      const msg = error.response?.data?.msg || 'An unexpected error occurred';
+      const ts = error.response?.data?.ts || 'error';
+      notify(msg, ts);
     }
   };
 
@@ -81,6 +90,7 @@ function AddReview() {
             <div className='flex justify-center'>
               <textarea
                 id="review"
+                value={review}
                 onChange={(e) => setReview(e.target.value)}
                 rows="4"
                 placeholder='Write your review'
@@ -97,6 +107,7 @@ function AddReview() {
             </div>
             <div className='flex'>
               <button
+                type="button"
                 onClick={() => setFormVisible(false)}
                 className='bg-accent w-screen text-red-500 p-2 rounded-lg mt-4 font-bold'
               >

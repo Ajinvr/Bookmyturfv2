@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from "../../assets/logo.png";
 import axiosInstance from '../../Utils/axiosInstance'; 
 import { toast } from 'react-hot-toast';
@@ -13,6 +13,10 @@ function Login() {
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const previousRoute = location.state?.from;
+
 
   const notify = (msg, status) => {
     status === 'success' ? toast.success(msg) : toast.error(msg);
@@ -34,7 +38,11 @@ function Login() {
       notify(response.data.msg, response.data.ts);
 
       setTimeout(() => {
-        navigate('/');
+        if (previousRoute) {
+          navigate(previousRoute);
+        } else {
+          navigate('/');
+        }
       }, 1000);
 
     } catch (error) {
