@@ -28,10 +28,10 @@ function Turf() {
           <img className='rounded-xl h-60 ' src={turf.imgLink} alt={turf.name} />
           <div>
             <h2 className='text-2xl mt-3'>{turf.name}</h2>
-            <p className='font-normal text-sm'>{turf.description}</p>
+            <p className='font-normal text-sm mt-1 line-clamp-2'>{turf.description}</p>
             <div className='flex justify-between items-center'>
-              <p>{turf.rent}/hour</p>
-              <p>kottayam</p>
+              <p className='mt-1'>{turf.rent}/hour</p>
+              <p>{turf.city}</p>
             </div>
           </div>
         </div>

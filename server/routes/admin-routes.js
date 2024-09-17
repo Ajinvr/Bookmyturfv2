@@ -5,10 +5,15 @@ import { adminGetAllTurfs,adminGetAllManagers ,adminGetAllOrders, adminGetAllUse
 const router = express.Router();
 
 router.route('/adminGetAllUsers').get(adminAuth,adminGetAllUsers)
+
 router.route('/adminGetAllTurfs').get(adminAuth,adminGetAllTurfs)
+
 router.route('/adminGetAllBookings').get(adminAuth,adminGetAllOrders)
+
 router.route('/adminGetAllManagers').get(adminAuth,adminGetAllManagers)
+
 router.route('/adminDeleteManager/:managerId').delete(adminAuth,deleteManager)
+
 // router.route('/adminEditManager').delete(adminAuth,deleteManager)
 
 

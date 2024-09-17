@@ -55,6 +55,10 @@ const turfSchema = new mongoose.Schema({
     assignedTo:{
         type: String,
         required: true
+    },
+    city:{
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 

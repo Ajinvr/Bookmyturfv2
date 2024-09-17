@@ -3,14 +3,18 @@ import {signup,login,userProfile, usercheck, userLogout} from '../controllers/us
 import { userAuth } from '../middlewares/userAuthMiddleware.js';
 import { addReview} from '../controllers/user/review-contoller.js';
 
-
 const router = express.Router();
 
 router.route('/signup').post(signup)
+
 router.route('/login').post(login)
+
 router.route('/profile').get(userAuth,userProfile)
+
 router.route('/addReview').post(userAuth,addReview)
+
 router.route('/userCheck').post(usercheck)
+
 router.route('/userLogout').post(userLogout)
 
 export default router;

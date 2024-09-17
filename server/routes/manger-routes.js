@@ -6,11 +6,17 @@ import { managerAssignedTurfs, managerAssignedTurfsOrders } from '../controllers
 
 const router = express.Router();
 
+
 router.route('/checkManager').get(mangerCheck)
+
 router.route('/managerSignup').post(managerSignup)
+
 router.route('/managerLogin').post(managerLogin)
+
 router.route('/getManagerAssignedTurfs').get(managerAuth,managerAssignedTurfs)
+
 router.route('/getManagerAssignedTurfsOrders').get(managerAuth,managerAssignedTurfsOrders)
+
 router.route('/deleteReview/:reviewId').delete(managerAuth,deleteReview)
 
 export default router;

@@ -68,7 +68,7 @@ function Slots() {
         />
       </div>
 
-      <div className='flex flex-wrap p-4 mt-10'>
+      <div className='flex flex-wrap p-4 mt-1'>
           {noSlots ? (
                        <div className='flex items-center justify-center w-screen'>
                           <h1> Currently No Slots Available...</h1>

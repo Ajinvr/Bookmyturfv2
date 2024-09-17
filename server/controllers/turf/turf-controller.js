@@ -3,6 +3,28 @@ import { turf } from '../../db/models/turfModel.js';
 import { imageUploadCloudinary } from '../../utils/cloudinary.js';
 import cloudinary from 'cloudinary';
 import { turfSlot } from '../../db/models/turfTimeSlotsModel.js';
+import { createSlotsForSpecificTurf } from '../../utils/create-slots.js';
+
+
+const TurfValidators = [
+  body('name').notEmpty().withMessage('Name is required').trim().escape(),
+  body('rent').isNumeric().withMessage('Rent must be a number').notEmpty(),
+  body('size').notEmpty().withMessage('Size is required').trim().escape(),
+  body('description').notEmpty().withMessage('Description is required').trim().escape(),
+  body('address').notEmpty().withMessage('Address is required').trim().escape(),
+  body('pincode').notEmpty().withMessage('Pincode is required').trim().escape(),
+];
+
+const cities = [
+  "Mumbai","Delhi","Bangalore","Kolkata","Chennai","Hyderabad","Pune","Ahmedabad",
+  "Jaipur","Lucknow","Bhopal","Chandigarh","Kochi","Nagpur","Patna","Indore",
+  "Surat","Vadodara","Ranchi", "Coimbatore", "Kottayam"
+];
+
+function getRandomCity(cities) {
+  const randomIndex = Math.floor(Math.random() * cities.length);
+  return cities[randomIndex];
+}
 
 // get all 
 export const getAllturf = async (req,res) => {
@@ -14,10 +36,7 @@ export const getAllturf = async (req,res) => {
    }
 }
 
-
-
-
-
+// get specific turf
 export const getTurf = async (req,res) => {
   let { id } = req.params
   try {
@@ -29,32 +48,30 @@ export const getTurf = async (req,res) => {
 }
 
 
-const TurfValidators = [
-  body('name').notEmpty().withMessage('Name is required').trim().escape(),
-  body('rent').isNumeric().withMessage('Rent must be a number').notEmpty(),
-  body('size').notEmpty().withMessage('Size is required').trim().escape(),
-  body('description').notEmpty().withMessage('Description is required').trim().escape(),
-  body('address').notEmpty().withMessage('Address is required').trim().escape(),
-  body('pincode').notEmpty().withMessage('Pincode is required').trim().escape(),
-  body('slots').isArray().withMessage('Slots must be an array').optional(),
-];
-
 // add turf =====
 export const addTurf = async (req, res) => {
- 
+  let slots = JSON.parse(req.body.slots);
+
+  slots = slots.map((slot) => ({
+    timeRange: slot,
+    status: 'available',
+  }));
+
   await Promise.all(TurfValidators.map(validator => validator.run(req)));
   const errors = validationResult(req);
- 
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, rent, size, description, address, pincode, slots } = req.body;
+  const { name, rent, size, description, address, pincode } = req.body;
   const userId = req.user.id;
-
+  const city = getRandomCity(cities);
+  
   try {
     const imgLink = await imageUploadCloudinary(req.file.path);
-    turf.create({
+
+    let newturf = await turf.create({
       userId,
       imgLink,
       name,
@@ -65,34 +82,46 @@ export const addTurf = async (req, res) => {
       pincode,
       slots,
       assignedTo: userId,
+      city
     });
 
-    return res.status(201).json({ msg: 'Turf added successfully', ts: 'success'});
+    let turfId = newturf._id;
+    await createSlotsForSpecificTurf(turfId);
+
+    return res.status(201).json({ msg: 'Turf added successfully', ts: 'success' });
   } catch (error) {
-    return res.status(500).json({ msg: 'Server error, try again', ts: 'error',  });
+    console.log(error);
+    return res.status(500).json({ msg: 'Server error, try again', ts: 'error' });
   }
 };
 
+
 // editturf ======
 export const editTurf = async (req, res) => {
- 
   const { id } = req.params;
- 
+
   await Promise.all(TurfValidators.map(validator => validator.run(req)));
   const errors = validationResult(req);
- 
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, rent, size, description, address, pincode, slots } = req.body;
+  const { name, rent, size, description, address, pincode } = req.body;
   const userId = req.user.id;
+  const city = getRandomCity(cities);
 
   try {
     const Turf = await turf.findById(id);
     if (!Turf) {
       return res.status(404).json({ msg: 'Turf not found', ts: 'error' });
     }
+
+    let slots = JSON.parse(req.body.slots);
+    slots = slots.map((slot) => ({
+      timeRange: slot,
+      status: 'available',
+    }));
 
     const updates = {
       name,
@@ -103,6 +132,7 @@ export const editTurf = async (req, res) => {
       pincode,
       slots,
       assignedTo: userId,
+      city,
     };
 
     if (req.file) {
@@ -115,10 +145,14 @@ export const editTurf = async (req, res) => {
       updates.imgLink = imgLink;
     }
 
-   await turf.findByIdAndUpdate(id, updates, { new: true });
+    let _id = id
 
-    return res.status(200).json({ msg: 'Turf updated successfully', ts: 'success'});
-  } catch (error) { 
+    let updatedTurf = await turf.findByIdAndUpdate(_id, updates, { new: true });
+    let turfId = updatedTurf._id;
+    await createSlotsForSpecificTurf(turfId);
+
+    return res.status(200).json({ msg: 'Turf updated successfully', ts: 'success' });
+  } catch (error) {
     return res.status(500).json({ msg: 'Server error, try again', ts: 'error' });
   }
 };

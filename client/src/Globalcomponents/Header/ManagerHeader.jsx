@@ -1,5 +1,4 @@
 import React from 'react'
-import Dropdown from './ManagerHeaderComponents/Dropdown'
 import ManagerSidebar from './ManagerHeaderComponents/ManagerSidebar'
 
 function ManagerHeader() {

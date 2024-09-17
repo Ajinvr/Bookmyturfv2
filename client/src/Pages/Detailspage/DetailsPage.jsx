@@ -55,13 +55,13 @@ function DetailsPage() {
           <img src={details?.imgLink} alt="Detail" className="w-full h-auto object-cover rounded-lg shadow-md" />
         </div>
         <div className="flex-1 md:w-1/2 md:pl-8 lg:pl-12 mt-4 md:mt-0">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-accent">{details?.name}</h1>
-          <p className="text-sm md:text-base lg:text-lg mb-4">Size: {details?.size}</p>
-          <p className="text-sm md:text-base lg:text-lg mb-4">Kottayam</p>
-          <p className="text-sm md:text-base lg:text-lg mb-4">₹{details?.rent}/hour</p>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1 text-accent">{details?.name}</h1>
+          <p className="text-sm md:text-base lg:text-lg mb-1">Size: {details?.size}</p>
+          <p className="text-sm md:text-base lg:text-lg mb-2">Kottayam</p>
+          <p className="text-sm md:text-base lg:text-lg mb-2">₹ {details?.rent}/hour</p>
 
           <p className="text-xl mb-4">Description</p>
-          <p className="text-sm md:text-sm lg:text-sm mb-4">{details?.description}</p>
+          <p className="text-sm md:text-sm lg:text-sm mb-4 line-clamp-3">{details?.description}</p>
 
           <button
             className="w-full px-4 py-2 rounded font-bold bg-accent text-secondary cursor-pointer"

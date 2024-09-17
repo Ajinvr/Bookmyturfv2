@@ -21,11 +21,11 @@ const ManagerSidebar = () => {
             <div onMouseLeave={toggleSidebar} className=' absolute bg-primary p-4 h-screen -right-4 w-screen md:w-80 mt-3'>
             <Theme />
             <hr/>
-            <NavigateLink text="All Bookings" path="/profile" />
+            <NavigateLink text="All Bookings" path="/manager/assigneTurfBookings" />
             <hr/>
-            <NavigateLink text="All Turfs" path="/profile" />
+            <NavigateLink text="All Turfs" path="/manager/assignedTurf" />
             <hr />
-            <NavigateLink text="Add Turf" path="/profile" />
+            <NavigateLink text="Add Turf" path="/manager/addTurf" />
             <hr /> 
             <Login />
         </div>

@@ -17,6 +17,8 @@ import ManagerHeader from './Globalcomponents/Header/ManagerHeader';
 import ManagerProtectedroute from './Utils/ManagerProtectedroute';
 import BookingConfirmpage from './Pages/Bookinconfirm/BookingConfirmpage';
 import Searchpage from './Pages/Seachpage/Searchpage';
+import Notdound from './Globalcomponents/notfound/Notdound';
+import AddTurf from './ManagerPages/AddTurf/AddTurf';
 
 function App() {
 
@@ -58,7 +60,7 @@ function App() {
 
                         <Route path="/manager/assignedTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                         <Route path="/manager/assigneTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
-                        <Route path="/manager/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/manager/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AddTurf/> </ManagerProtectedroute>  </>} />
                                   
                         <Route path="/admin/allUsers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                         <Route path="/admin/allMangers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
@@ -67,7 +69,7 @@ function App() {
                         <Route path="/admin/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                           
 
-                        <Route path="/*" element={<div className='h-screen flex justify-center items-center'>  <h1 className='text-5xl text-red-800 font-extrabold uppercase'>404 not found</h1></div>}/>
+                        <Route path="/*" element={<Notdound/>}/>
 
                     </Routes>    
         </Router>
