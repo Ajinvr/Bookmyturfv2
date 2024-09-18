@@ -32,6 +32,10 @@ const orderSchema = new mongoose.Schema({
     default: 'confirmed',
     enum: ['confirmed', 'canceled'],
   },
+  sessionid:{
+    type: String,
+    required: true
+  }
 });
 
 export const order = mongoose.model('order', orderSchema);

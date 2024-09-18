@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../Utils/axiosInstance';
 
 const SuccessPage = () => {
   const navigate = useNavigate();
+
+useEffect(() => {
+ async function cr() {
+    try {
+    await axiosInstance.get('/api/order/create-order')
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+  cr()
+}, [])
+
 
   const goHome = () => {
     navigate('/');

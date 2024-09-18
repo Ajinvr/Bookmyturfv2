@@ -38,7 +38,7 @@ function BookingConfirmpage() {
   }
 
 
-const stripePromise = loadStripe('pk_test_51Q0J3UJQts9WIvAv6ReQAD79WKIscZb2dJLT9LlP29pAbtIkyKd86VITHm6SzbI1IYYRZ900EcW0OMSZaszUktRj00PmrKpp7X');
+const stripePromise = loadStripe(import.meta.env.VITE_stripe_publish_key);
 
 async function handleConfirm() {
   try {
@@ -63,9 +63,10 @@ async function handleConfirm() {
       const result = await stripe.redirectToCheckout({
         sessionId: sessionId,
       });
+console.log(result);
 
       if (result.error) {
-        console.error(result.error.message);
+        console.log(result.error.message);
       }
     }
 
