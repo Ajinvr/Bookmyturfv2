@@ -9,21 +9,13 @@ import { getReviews } from '../controllers/user/review-contoller.js';
 const router = express.Router();
 
 router.route('/getAllTurf').get(getAllturf)
-
 router.route('/getTurfSlots/:turfId').get(getTurfSlots)
-
 router.route('/getTurf/:id').get(getTurf)
-
 router.route('/addTurf').post(managerAuth,upload.single('file'),addTurf)
-
 router.route('/editTurf/:id').patch(managerAuth,upload.single('file'),editTurf)
-
 router.route('/deleteTurf/:id').delete(managerAuth,deleteTurf)
-
 router.route('/createSlots/:key').get(createSlots)
-
 router.route('/searchturf').get(searchTurf)
-
 router.route('/getreview/:id').get(getReviews)
 
 export default router;
