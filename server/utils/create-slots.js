@@ -71,24 +71,18 @@ export const createSlotsForSpecificTurf = async (turfId) => {
 
 
 
-import fs from 'fs';
+import { mkdir } from 'fs/promises';
 import path from 'path';
 
-// Helper function to get the directory name from import.meta.url
-const getDirname = (importMetaUrl) => {
-  const { pathname } = new URL(importMetaUrl);
-  return path.dirname(pathname);
-};
+export async function createFolder() {
+  const folderName = 'uploads';
+  const rootDir = path.resolve('./');
+  const folderPath = path.join(rootDir, folderName);
 
-export function createUploadsDirectory() {
-  const rootDir = getDirname(import.meta.url);
-  const parentDir = path.resolve(rootDir, '..');
-  const uploadsDir = path.join(parentDir, 'uploads');
-
-  if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-    console.log('Uploads directory created successfully.');
-  } else {
-    console.log('Uploads directory already exists.');
+  try {
+    await mkdir(folderPath, { recursive: true });
+    console.log('Folder created successfully:', folderPath);
+  } catch (err) {
+    console.error('Error creating folder:', err);
   }
 }

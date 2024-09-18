@@ -9,9 +9,8 @@ import admin from "./routes/admin-routes.js"
 import turf from './routes/turf-routes.js'
 import manager from './routes/manger-routes.js'
 import order from './routes/order-routes.js'
-import { createUploadsDirectory } from "./utils/create-slots.js";
-
-createUploadsDirectory()
+import { createFolder } from "./utils/create-slots.js";
+createFolder()
 
 dotenv.config();
 connectdb();
