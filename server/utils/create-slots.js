@@ -68,3 +68,21 @@ export const createSlotsForSpecificTurf = async (turfId) => {
         }
     }
 };
+
+
+
+import fs from 'fs';
+import path from 'path';
+
+export function createUploadsDirectory() {
+  const rootDir = path.resolve(__dirname, '..');
+  const uploadsDir = path.join(rootDir, 'uploads');
+
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log('Uploads directory created successfully.');
+  } else {
+    console.log('Uploads directory already exists.');
+  }
+}
+
