@@ -19,6 +19,9 @@ import BookingConfirmpage from './Pages/Bookinconfirm/BookingConfirmpage';
 import Searchpage from './Pages/Seachpage/Searchpage';
 import Notdound from './Globalcomponents/notfound/Notdound';
 import AddTurf from './ManagerPages/AddTurf/AddTurf';
+import EditTurf from './ManagerPages/EditTurf/EditTurf';
+import CancelPage from './Pages/Bookinconfirm/CancelPage';
+import SuccessPage from './Pages/Bookinconfirm/SuccessPage';
 
 function App() {
 
@@ -67,8 +70,10 @@ function App() {
                         <Route path="/admin/allTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                         <Route path="/admin/allTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
                         <Route path="/admin/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/editTurf/:id" element= {<> <ManagerProtectedroute> <ManagerHeader/> <EditTurf/> </ManagerProtectedroute>  </>} />
                           
-
+                        <Route path="/cancel" element={<CancelPage/>}/>
+                        <Route path="/success" element={<SuccessPage/>}/>
                         <Route path="/*" element={<Notdound/>}/>
 
                     </Routes>    

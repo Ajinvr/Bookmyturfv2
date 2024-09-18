@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { setSelectedSlots } from '../../Utils/Redux/Features/slotSlice';
+import Loader from '../../Globalcomponents/Loader/Loader'
+import axiosInstance from '../../Utils/axiosInstance';
+import { loadStripe } from '@stripe/stripe-js';
 
 function BookingConfirmpage() {
 
+  const [isprocessing, setisprocessing] = useState(false)
+
+  let { id } = useParams()
  
   const selectedDate = localStorage.getItem('selectedDate');
   const selectedSlots = useSelector((state) => state.slots.selectedSlots); 
@@ -18,6 +24,8 @@ function BookingConfirmpage() {
 
   const totalAmount = rent * selectedSlots.length;
 
+  const amount = totalAmount*100
+
   useEffect(() => {
     if (selectedSlots.length === 0) {
       navigate(previousRoute);
@@ -28,6 +36,48 @@ function BookingConfirmpage() {
     dispatch(setSelectedSlots([]));
     navigate(previousRoute);
   }
+
+
+const stripePromise = loadStripe('pk_test_51Q0J3UJQts9WIvAv6ReQAD79WKIscZb2dJLT9LlP29pAbtIkyKd86VITHm6SzbI1IYYRZ900EcW0OMSZaszUktRj00PmrKpp7X');
+
+async function handleConfirm() {
+  try {
+    const requestBody = {
+      selectedDate,
+      selectedSlots,
+    };
+
+    let response = await axiosInstance.post('/api/order/checkAvailability', requestBody);
+    
+    if (response.data.available) {
+      const body = {
+        id, selectedDate, selectedSlots,amount
+      };
+
+      response = await axiosInstance.post('/api/order/create-checkout-session', body);
+      
+      const { sessionId } = response.data;
+
+      const stripe = await stripePromise;
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: sessionId,
+      });
+
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    }
+
+  } catch (error) {
+    console.error('Error during payment processing:', error);
+  }
+}
+
+
+if (isprocessing) {
+  return <Loader/>
+}
 
   return (
     <div className='px-3 py-1 mt-5 md:px-14 md:py-5 text-accent min-h-screen'>
@@ -50,10 +100,10 @@ function BookingConfirmpage() {
 
       <h2 className='font-bold text-xl mt-4'>Total Amount: ₹{totalAmount}</h2>
 
-      <button className='bg-accent text-secondary py-2 px-4 rounded-lg font-bold text-xl w-full mt-6'>Confirm booking</button>
+      <button onClick={handleConfirm} className='bg-accent text-secondary py-2 px-4 rounded-lg font-bold text-xl w-full mt-6'>Confirm booking</button>
       <button onClick={handleEdit} className='bg-accent text-red-600 py-2 px-4 rounded-lg font-bold text-xl w-full mt-6'>Cancel</button>
     </div>
   );
 }
 
-export default BookingConfirmpage;
+export default BookingConfirmpage;  

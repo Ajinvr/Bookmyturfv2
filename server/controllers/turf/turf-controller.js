@@ -38,8 +38,9 @@ export const getAllturf = async (req,res) => {
 
 // get specific turf
 export const getTurf = async (req,res) => {
+ 
   let { id } = req.params
-  try {
+  try { 
      const turfs = await turf.findOne({_id:id});
      res.json({ turfs});
   } catch (error) {

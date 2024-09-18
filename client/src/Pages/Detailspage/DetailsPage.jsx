@@ -36,8 +36,8 @@ function DetailsPage() {
   
     try {
       const response = await axiosInstance.post('/api/userCheck'); 
-      console.log(response.data.isAuthenticated);
-      
+     
+   
       if (response.data.isAuthenticated) {
         navigate(`/details/bookinconfirm/${id}`, { state: { from: location.pathname } });
       } 
