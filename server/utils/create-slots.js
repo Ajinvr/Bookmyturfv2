@@ -74,9 +74,16 @@ export const createSlotsForSpecificTurf = async (turfId) => {
 import fs from 'fs';
 import path from 'path';
 
+// Helper function to get the directory name from import.meta.url
+const getDirname = (importMetaUrl) => {
+  const { pathname } = new URL(importMetaUrl);
+  return path.dirname(pathname);
+};
+
 export function createUploadsDirectory() {
-  const rootDir = path.resolve(__dirname, '..');
-  const uploadsDir = path.join(rootDir, 'uploads');
+  const rootDir = getDirname(import.meta.url);
+  const parentDir = path.resolve(rootDir, '..');
+  const uploadsDir = path.join(parentDir, 'uploads');
 
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
@@ -85,4 +92,3 @@ export function createUploadsDirectory() {
     console.log('Uploads directory already exists.');
   }
 }
-
