@@ -5,6 +5,7 @@ import NavigateLink from './NavigateLink';
 import Login from './Login';
 
 const ManagerSidebar = () => {
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {

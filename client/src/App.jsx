@@ -24,6 +24,7 @@ import CancelPage from './Pages/Bookinconfirm/CancelPage';
 import SuccessPage from './Pages/Bookinconfirm/SuccessPage';
 import Assignedturfs from './ManagerPages/Assingnedturfs/Assignedturfs';
 import AsignedTurfbookings from './ManagerPages/AsignedTurfbookings/AsignedTurfbookings';
+import AdmiHeader from './Globalcomponents/Header/AdmiHeader';
 
 function App() {
 
@@ -67,11 +68,11 @@ function App() {
                         <Route path="/manager/assigneTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AsignedTurfbookings/>  </ManagerProtectedroute>  </>} />
                         <Route path="/manager/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AddTurf/> </ManagerProtectedroute>  </>} />
                                   
-                        <Route path="/admin/allUsers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
-                        <Route path="/admin/allMangers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
-                        <Route path="/admin/allTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
-                        <Route path="/admin/allTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
-                        <Route path="/admin/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/allUsers" element= {<> <AdmiHeader/> </>} />
+                        <Route path="/admin/allMangers" element= {<> <AdmiHeader/>  </>} />
+                        <Route path="/admin/allTurfBookings" element= {<> <AdmiHeader/>  </>} />
+                        <Route path="/admin/allTurf" element= {<> <AdmiHeader/>  </>} />
+                        <Route path="/admin/addTurf" element= {<> <AdmiHeader/> <AddTurf/> </>} />
                         <Route path="/admin/editTurf/:id" element= {<> <ManagerProtectedroute> <ManagerHeader/> <EditTurf/> </ManagerProtectedroute>  </>} />
                           
                         <Route path="/cancel" element={<CancelPage/>}/>
