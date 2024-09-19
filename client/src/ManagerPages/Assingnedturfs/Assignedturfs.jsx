@@ -27,9 +27,8 @@ function AssignedTurfs() {
 
   return (
     <div className='text-accent p-4'>
-      <div className='h-5'></div>
       {response.length === 0 ? (
-        <div>No assigned turfs available.</div>
+        <div className='h-screen flex justify-center items-center text-2xl'>No assigned turfs available.</div>
       ) : (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {response.map((turf) => (
@@ -37,7 +36,7 @@ function AssignedTurfs() {
               <img src={turf.imgLink} alt={turf.name} className='w-full h-40 object-cover rounded-t-lg' />
               <div className='mt-4'>
                 <h2 className='text-xl font-semibold'>{turf.name}</h2>
-                <p>Rent: ${turf.rent}</p>
+                <p>Rent: ₹ {turf.rent}</p>
                 <p>Size: {turf.size}</p>
                 <p>Address: {turf.address}</p>
                 <p>Pincode: {turf.pincode}</p>

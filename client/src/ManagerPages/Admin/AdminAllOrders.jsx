@@ -50,23 +50,11 @@ if (isError) {
     }
   
   return (
-    <div className='text-accent'>
-     
-     <div className='h-12 bg-primary mb-5 flex justify-start items-center'>
-
-        <div className='flex items-center bg-white px-2 rounded-lg max-w-52 h-8 ml-2'>
-             <input
-               type="text"
-               placeholder="Search"
-               className='outline-none border-0 p-1 text-black rounded w-40'
-             />
-             <img  className='h-5 cursor-pointer' src={Seachicon} alt="Search" />
-        </div>
-     
-    </div>
+    <div className='text-accent py-4'>
+      <h1 className="text-3xl font-bold text-accent mb-4 ml-2">All Bookings</h1>
 
       {response.length === 0 ? (
-        <div>No turf bookings available.</div>
+        <div className='h-screen flex justify-center items-center text-2xl'>No turf bookings available.</div>
       ) : (
         <div className='px-5'>
           {response.slice().reverse().map((booking, index) => (

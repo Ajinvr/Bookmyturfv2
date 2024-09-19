@@ -64,63 +64,69 @@ export const createCheckoutSession = async (req, res) => {
 
 export const createOrder = async (req, res) => {
  
-  try {
-     
-      const existingOrder = await order.findOne({
-          userId,
+    try {
+        const existingOrder = await order.findOne({
+          userId:userId,
           turfId: bookingdata.id,
           bookingdate: bookingdata.selectedDate,
           timeRange: { $in: bookingdata.selectedSlots.map(slot => slot.timeRange) }
-      });
-
-      if (existingOrder) {
+        });
+    
+        if (existingOrder) {
           return res.status(400).json({ error: 'Order already exists' });
-      }
-
-      const session = await stripe.checkout.sessions.retrieve(sessionid);
-
-      if (session.payment_status === 'paid') {
+        }
+    
+        const session = await stripe.checkout.sessions.retrieve(sessionid);
+    
+        if (session.payment_status === 'paid') {
           const turfData = await turf.findById(bookingdata.id);
-
-          let amount = bookingdata.amount / 100;
-
+    
           if (turfData) {
-              const managerId = turfData.assignedTo;
-
-              const turfSlots = await turfSlot.find({ date: bookingdata.selectedDate });
-
-              for (const selectedSlot of bookingdata.selectedSlots) {
-                  const matchingSlot = turfSlots.find(turfSlot => 
-                      turfSlot.timeRange === selectedSlot.timeRange
-                  );
-
-                  if (matchingSlot) {
-                      matchingSlot.status = 'booked';
-                      await matchingSlot.save();
-                  }
+            const managerId = turfData.assignedTo;
+            let amount = bookingdata.amount / 100;
+    
+            const turfSlots = await turfSlot.findOne({
+              turfId: bookingdata.id,
+              date: bookingdata.selectedDate
+            });
+    
+            if (!turfSlots) {
+              return res.status(404).json({ error: 'Turf slots not found' });
+            }
+    
+            for (const selectedSlot of bookingdata.selectedSlots) {
+              const matchingSlot = turfSlots.slots.find(turfSlot =>
+                turfSlot._id.toString() === selectedSlot._id.toString()
+              );
+    
+              if (matchingSlot) {
+                matchingSlot.status = 'booked';
               }
-
-              await order.create({
-                  userId, 
-                  turfId: bookingdata.id, 
-                  managerId,
-                  bookingdate: bookingdata.selectedDate,
-                  timeRange: bookingdata.selectedSlots.map(slot => slot.timeRange),
-                  billAmount: amount,
-                  status: 'confirmed',
-                  sessionid
-              });
-
-              res.status(200).json({ message: 'Order created successfully!' });
+            }
+    
+            await turfSlots.save();
+    
+            
+            await order.create({
+              userId,
+              turfId: bookingdata.id,
+              managerId,
+              bookingdate: bookingdata.selectedDate,
+              timeRange: bookingdata.selectedSlots.map(slot => slot.timeRange),
+              billAmount: amount,
+              status: 'confirmed',
+              sessionid
+            });
+    
+            res.status(200).json({ message: 'Order created successfully!' });
           } else {
-              res.status(404).json({ error: 'Turf not found' });
+            res.status(404).json({ error: 'Turf not found' });
           }
-      } else {
+        } else {
           res.status(400).json({ error: 'Payment not completed' });
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
       }
-  } catch (error) {
-      console.log('Error creating order:', error);
-      res.status(500).json({ error: error.message });
-  }
 };
 
