@@ -51,8 +51,8 @@ export const createCheckoutSession = async (req, res) => {
                 },
                 quantity: 1,
             })),
-            success_url: 'http://192.168.1.36:5173/success',
-            cancel_url: 'http://192.168.1.36:5173/cancel',
+            success_url: 'https://bookmyturfv2-frontend.vercel.app/success',
+            cancel_url: 'https://bookmyturfv2-frontend.vercel.app/cancel',
         });
   
         res.json({ sessionId: session.id });
