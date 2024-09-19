@@ -121,3 +121,29 @@ export const mangerCheck = async(req, res) => {
     return res.status(500).json({ isAuthenticated: false, msg: "Internal server error", ts: "error" });
   }
 }
+
+
+// manger check
+export const AdminCheck = async(req, res) => {
+  try {
+    const { token } = req.cookies;
+
+    if (!token) {
+      return res.status(400).json({  isAuthenticated: false, msg: "User not authenticated", ts: "error" });
+    }
+
+    const tokenVerified = jwt.verify(token, process.env.jWTKEY);
+
+    
+
+    if (!tokenVerified || tokenVerified.role !== 'admin') {
+      return res.status(400).json({ isAuthenticated: false, msg: "User not authenticated or insufficient privileges", ts: "error" });
+    }
+
+    return res.status(200).json({ isAuthenticated: true, msg: "User authenticated", ts: "success" });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ isAuthenticated: false, msg: "Internal server error", ts: "error" });
+  }
+}

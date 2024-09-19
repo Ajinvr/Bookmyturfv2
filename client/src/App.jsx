@@ -25,6 +25,11 @@ import SuccessPage from './Pages/Bookinconfirm/SuccessPage';
 import Assignedturfs from './ManagerPages/Assingnedturfs/Assignedturfs';
 import AsignedTurfbookings from './ManagerPages/AsignedTurfbookings/AsignedTurfbookings';
 import AdmiHeader from './Globalcomponents/Header/AdmiHeader';
+import AdminProtectedRoute from './Utils/AdminProtectedRoute'
+import AdminAllManagers from './ManagerPages/Admin/AdminAllManagers';
+import AdminAllOrders from './ManagerPages/Admin/AdminAllOrders';
+import AdminAllTurfs from './ManagerPages/Admin/AdminAllTurfs';
+import AdminAllUsers from './ManagerPages/Admin/AdminAllUsers';
 
 function App() {
 
@@ -68,12 +73,48 @@ function App() {
                         <Route path="/manager/assigneTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AsignedTurfbookings/>  </ManagerProtectedroute>  </>} />
                         <Route path="/manager/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AddTurf/> </ManagerProtectedroute>  </>} />
                                   
-                        <Route path="/admin/allUsers" element= {<> <AdmiHeader/> </>} />
-                        <Route path="/admin/allMangers" element= {<> <AdmiHeader/>  </>} />
-                        <Route path="/admin/allTurfBookings" element= {<> <AdmiHeader/>  </>} />
-                        <Route path="/admin/allTurf" element= {<> <AdmiHeader/>  </>} />
-                        <Route path="/admin/addTurf" element= {<> <AdmiHeader/> <AddTurf/> </>} />
-                        <Route path="/admin/editTurf/:id" element= {<> <ManagerProtectedroute> <ManagerHeader/> <EditTurf/> </ManagerProtectedroute>  </>} />
+                        <Route path="/admin/allUsers" element= {<> 
+                                                                <AdminProtectedRoute> 
+                                                                  <AdmiHeader/> 
+                                                                  <AdminAllUsers/>
+                                                                </AdminProtectedRoute>
+                                                                </>} 
+                        />
+                        <Route path="/admin/allMangers" element= {<>
+                                                                     <AdminProtectedRoute>
+                                                                                     <AdmiHeader/> 
+                                                                                     <AdminAllManagers/>
+                                                                      </AdminProtectedRoute> 
+                                                                  </>}
+                        />
+                        <Route path="/admin/allTurfBookings" element= {<> 
+                                                                       <AdminProtectedRoute> 
+                                                                                      <AdmiHeader/>
+                                                                                      <AdminAllOrders/>
+                                                                        </AdminProtectedRoute>
+                                                                        </>
+                        } />
+                        <Route path="/admin/allTurf" element= {<> 
+                                                              <AdminProtectedRoute>
+                                                                         <AdmiHeader/>
+                                                                         <AdminAllTurfs/>
+                                                              </AdminProtectedRoute> 
+                                                               </>
+                          } />
+                        <Route path="/admin/addTurf" element= {<> 
+                                                               <AdminProtectedRoute> 
+                                                                            <AdmiHeader/>
+                                                                                   <AddTurf/>
+                                                               </AdminProtectedRoute>
+                                                               </>}
+                         />
+                        <Route path="/admin/editTurf/:id" element= {<>
+                                                                    <ManagerProtectedroute>
+                                                                                <ManagerHeader/>
+                                                                                        <EditTurf/>
+                                                                    </ManagerProtectedroute>
+                                                                     </>}
+                                                                      />
                           
                         <Route path="/cancel" element={<CancelPage/>}/>
                         <Route path="/success" element={<SuccessPage/>}/>

@@ -27,7 +27,7 @@ function AdminSidebar() {
             <hr/>
             <NavigateLink text="All Users" path="/admin/allUsers" />
             <hr/>
-            <NavigateLink text="Add Turf" path="/admin/addTurf" />
+            <NavigateLink text="All managers" path="/admin/allMangers" />
             <hr />
             <NavigateLink text="All Turfs" path="/admin/allTurf" />
             <hr />
@@ -38,7 +38,6 @@ function AdminSidebar() {
         ) :(<> </>)
      }
       
-    
     </div>
   )
 }

@@ -49,8 +49,8 @@ function AsignedTurfbookings() {
   return (
     <div className='text-accent'>
      
-     <div className='h-10 bg-primary mb-5 flex justify-start items-center'>
-          <h1 className='px-2 font-bold text-xl text-white'> Bookings </h1>
+     <div className='h-12 bg-primary mb-5 flex justify-start items-center'>
+          
         <div className='flex items-center bg-white px-2 rounded-lg max-w-52 h-8'>
              <input
                type="text"
