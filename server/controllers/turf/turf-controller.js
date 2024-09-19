@@ -161,8 +161,7 @@ export const editTurf = async (req, res) => {
 // delete turf ==
 export const deleteTurf = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  
+
   try {
     const foundturf = await turf.findById(id)
 

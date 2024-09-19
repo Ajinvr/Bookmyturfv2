@@ -57,3 +57,55 @@ export const deleteManager = async (req, res) => {
               return res.status(500).json({ msg: "Server error", ts: "error" });
             }
 };
+
+
+
+export const assignTurfToManager = async (req, res) => {
+  try {
+    const { turfId, managerId } = req.body;
+
+    if (!turfId || !managerId) {
+      return res.status(400).json({ message: 'Turf ID and Manager ID are required.' });
+    }
+
+    const foundturf = await turf.findById(turfId);
+
+    if (!foundturf) {
+      return res.status(404).json({ message: 'Turf not found.' });
+    }
+
+    await turf.findByIdAndUpdate(
+      turfId,
+      { assignedTo: managerId },
+      { new: true }
+    );
+
+    res.status(200).json({ message: 'Turf assigned to manager successfully!' });
+  } catch (error) {
+    console.error('Error assigning turf to manager:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+export const deleteTurf = async (req, res) => {
+  try {
+    const { turfId } = req.params;
+
+    if (!turfId) {
+      return res.status(400).json({ message: 'Turf ID is required.' });
+    }
+
+    const deletedTurf = await turf.findByIdAndDelete(turfId);
+
+    if (!deletedTurf) {
+      return res.status(404).json({ message: 'Turf not found.' });
+    }
+
+    res.status(200).json({ message: 'Turf deleted successfully!' });
+  } catch (error) {
+    console.error('Error deleting turf:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

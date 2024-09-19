@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axiosInstance from '../../Utils/axiosInstance';
 import Loader from '../../Globalcomponents/Loader/Loader';
@@ -6,8 +6,6 @@ import toast from 'react-hot-toast';
 
 const fetchTurfs = async () => {
   const response = await axiosInstance.get('/api/admin/adminGetAllTurfs');
-  console.log(response.data.allTurfs);
-  
   return response.data.allTurfs;
 };
 
@@ -22,9 +20,6 @@ const assignTurfToManager = async ({ turfId, managerId }) => {
 function AdminAllTurfs() {
   const queryClient = useQueryClient();
   const { data: turfs, isLoading, error } = useQuery(['turfs'], fetchTurfs);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedTurfId, setSelectedTurfId] = useState(null);
-  const [managerId, setManagerId] = useState('');
 
   const deleteMutation = useMutation(deleteTurf, {
     onSuccess: () => {
@@ -39,7 +34,6 @@ function AdminAllTurfs() {
   const assignMutation = useMutation(assignTurfToManager, {
     onSuccess: () => {
       queryClient.invalidateQueries(['turfs']);
-      setIsModalOpen(false);
       toast.success('Turf assigned to manager successfully!');
     },
     onError: () => {
@@ -48,12 +42,12 @@ function AdminAllTurfs() {
   });
 
   const handleAssignClick = (turfId) => {
-    setSelectedTurfId(turfId);
-    setIsModalOpen(true);
-  };
-
-  const handleAssignSubmit = () => {
-    assignMutation.mutate({ turfId: selectedTurfId, managerId });
+    const managerId = window.prompt('Enter Manager ID:');
+    if (managerId) {
+      assignMutation.mutate({ turfId, managerId });
+    } else {
+      toast.error('Manager ID is required.');
+    }
   };
 
   if (isLoading) return <Loader />;
@@ -74,18 +68,17 @@ function AdminAllTurfs() {
               className="rounded-lg mb-4 h-48 w-full object-cover"
             />
             <h3 className="text-xl font-semibold mb-2">{turf.name}</h3>
-            <p className=" mb-4">Location: {turf.city}</p>
-            <p className=" mb-4">Rent :  ₹ {turf.rent}</p>
-            <p className=" mb-4">Turf id : {turf._id}</p>
+            <p className="mb-4">Location: {turf.city}</p>
+            <p className="mb-4">Rent: ₹{turf.rent}</p>
+            <p className="mb-4">Turf ID: {turf._id}</p>
+            <p className="mb-4">Manager Id : {turf.assignedTo}</p>
             <div className="mb-4">
-             {turf.slots.map((slot, index) => (
-                  <p key={index}>
-                    Slot {index + 1} : {slot.timeRange}
-                  </p>
+              {turf.slots.map((slot, index) => (
+                <p key={index}>
+                  Slot {index + 1}: {slot.timeRange}
+                </p>
               ))}
-             </div>
-
-
+            </div>
 
             <button
               onClick={() => handleAssignClick(turf._id)}
@@ -103,35 +96,6 @@ function AdminAllTurfs() {
           </div>
         ))}
       </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Assign Turf to Manager</h2>
-            <input
-              type="text"
-              placeholder="Enter Manager ID"
-              value={managerId}
-              onChange={(e) => setManagerId(e.target.value)}
-              className="border border-gray-300 rounded-lg p-3 w-full mb-6"
-            />
-            <div className="flex justify-end">
-              <button
-                onClick={handleAssignSubmit}
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 mr-2"
-              >
-                Assign
-              </button>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
