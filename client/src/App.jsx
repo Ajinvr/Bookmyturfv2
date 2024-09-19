@@ -22,6 +22,8 @@ import AddTurf from './ManagerPages/AddTurf/AddTurf';
 import EditTurf from './ManagerPages/EditTurf/EditTurf';
 import CancelPage from './Pages/Bookinconfirm/CancelPage';
 import SuccessPage from './Pages/Bookinconfirm/SuccessPage';
+import Assignedturfs from './ManagerPages/Assingnedturfs/Assignedturfs';
+import AsignedTurfbookings from './ManagerPages/AsignedTurfbookings/AsignedTurfbookings';
 
 function App() {
 
@@ -61,8 +63,8 @@ function App() {
                         <Route path="/managerlogin" element={<ManagerLogin/>} />
                         <Route path="/managersignup" element={<ManagerSignup/>} />
 
-                        <Route path="/manager/assignedTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
-                        <Route path="/manager/assigneTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />
+                        <Route path="/manager/assignedTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/><Assignedturfs/> </ManagerProtectedroute>  </>} />
+                        <Route path="/manager/assigneTurfBookings" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AsignedTurfbookings/>  </ManagerProtectedroute>  </>} />
                         <Route path="/manager/addTurf" element= {<> <ManagerProtectedroute> <ManagerHeader/> <AddTurf/> </ManagerProtectedroute>  </>} />
                                   
                         <Route path="/admin/allUsers" element= {<> <ManagerProtectedroute> <ManagerHeader/> </ManagerProtectedroute>  </>} />

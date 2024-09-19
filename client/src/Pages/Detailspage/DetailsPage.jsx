@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../Utils/axiosInstance';
 import Slots from './Slots/Slots';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Review from './Review/Review';
 import Loader from '../../Globalcomponents/Loader/Loader';
 

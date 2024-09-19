@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axiosInstance from '../../../Utils/axiosInstance';
 import Seachicon from '../../../assets/searchicon.svg';
 import { useNavigate } from 'react-router-dom';
 
