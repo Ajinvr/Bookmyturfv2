@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import axiosInstance from '../../Utils/axiosInstance';
-
+import Loader from "../../Globalcomponents/Loader/Loader";
 const fetchAssignedTurfs = async () => {
   const response = await axiosInstance.get('/api/manager/getManagerAssignedTurfs');
   return response.data.assignedTurfs; 
@@ -18,7 +18,7 @@ function AssignedTurfs() {
   }, [data]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (isError) {

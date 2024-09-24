@@ -88,9 +88,9 @@ function Searchpage() {
             className="bg-secondary text-accent border outline-none rounded border-accent"
           >
             <option className='text-sm' value="All">All</option>
-            <option className='text-sm' value="Small">Small</option>
-            <option className='text-sm' value="Medium">Medium</option>
-            <option className='text-sm' value="Large">Large</option>
+            <option className='text-sm' value="small">Small</option>
+            <option className='text-sm' value="medium">Medium</option>
+            <option className='text-sm' value="large">Large</option>
           </select>
         </div>
       </div>
