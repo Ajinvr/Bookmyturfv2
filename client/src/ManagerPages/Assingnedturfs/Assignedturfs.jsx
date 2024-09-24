@@ -27,6 +27,9 @@ function AssignedTurfs() {
 
   return (
     <div className='text-accent p-4'>
+
+<h1 className='text-xl font-bold ml-2 py-2'>All Turfs</h1>
+
       {response.length === 0 ? (
         <div className='h-screen flex justify-center items-center text-2xl'>No assigned turfs available.</div>
       ) : (

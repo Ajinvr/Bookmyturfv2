@@ -6,6 +6,8 @@ import Loader from '../../Globalcomponents/Loader/Loader';
 
 const fetchOrders = async () => {
   const response = await axiosInstance.get('/api/profile'); 
+  console.log(response.data);
+  
   return response.data;
 };
 

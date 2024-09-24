@@ -95,6 +95,9 @@ export const login = async (req, res) => {
 
 // get profile =====
 export const userProfile = async (req, res) => {
+
+  
+
   try {
     const { id } = req.user;
     const userData = await user.findById(id).select('name email');

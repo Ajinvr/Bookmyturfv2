@@ -23,8 +23,6 @@ function Slots() {
       } else {
         setNoSlots(false);
         setSlots(response.data);
-        console.log(response.data);
-        
       }
     } catch (error) {
       setNoSlots(true);

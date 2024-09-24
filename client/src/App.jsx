@@ -80,6 +80,7 @@ function App() {
                                                                 </AdminProtectedRoute>
                                                                 </>} 
                         />
+
                         <Route path="/admin/allMangers" element= {<>
                                                                      <AdminProtectedRoute>
                                                                                      <AdmiHeader/> 
@@ -87,6 +88,7 @@ function App() {
                                                                       </AdminProtectedRoute> 
                                                                   </>}
                         />
+
                         <Route path="/admin/allTurfBookings" element= {<> 
                                                                        <AdminProtectedRoute> 
                                                                                       <AdmiHeader/>
@@ -94,6 +96,7 @@ function App() {
                                                                         </AdminProtectedRoute>
                                                                         </>
                         } />
+
                         <Route path="/admin/allTurf" element= {<> 
                                                               <AdminProtectedRoute>
                                                                          <AdmiHeader/>
@@ -101,6 +104,7 @@ function App() {
                                                               </AdminProtectedRoute> 
                                                                </>
                           } />
+
                         <Route path="/admin/addTurf" element= {<> 
                                                                <AdminProtectedRoute> 
                                                                             <AdmiHeader/>
@@ -108,6 +112,7 @@ function App() {
                                                                </AdminProtectedRoute>
                                                                </>}
                          />
+
                         <Route path="/admin/editTurf/:id" element= {<>
                                                                     <ManagerProtectedroute>
                                                                                 <ManagerHeader/>
@@ -117,7 +122,9 @@ function App() {
                                                                       />
                           
                         <Route path="/cancel" element={<CancelPage/>}/>
+                      
                         <Route path="/success" element={<SuccessPage/>}/>
+                      
                         <Route path="/*" element={<Notdound/>}/>
 
                     </Routes>    
