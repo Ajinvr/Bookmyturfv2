@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axiosInstance from '../../Utils/axiosInstance';
 import Loader from '../../Globalcomponents/Loader/Loader';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const fetchTurfs = async () => {
   const response = await axiosInstance.get('/api/admin/adminGetAllTurfs');
@@ -20,6 +21,8 @@ const assignTurfToManager = async ({ turfId, managerId }) => {
 function AdminAllTurfs() {
   const queryClient = useQueryClient();
   const { data: turfs, isLoading, error } = useQuery(['turfs'], fetchTurfs);
+
+const navigate = useNavigate()
 
   const deleteMutation = useMutation(deleteTurf, {
     onSuccess: () => {
@@ -88,8 +91,15 @@ function AdminAllTurfs() {
             </button>
 
             <button
+              onClick={() => navigate(`/admin/editTurf/${turf._id}`)}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-200"
+            >
+              Edit Turf
+            </button>
+
+            <button
               onClick={() => deleteMutation.mutate(turf._id)}
-              className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+              className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200 mt-2"
             >
               Delete Turf
             </button>

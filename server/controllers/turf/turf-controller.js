@@ -118,12 +118,6 @@ export const editTurf = async (req, res) => {
       return res.status(404).json({ msg: 'Turf not found', ts: 'error' });
     }
 
-    let slots = JSON.parse(req.body.slots);
-    slots = slots.map((slot) => ({
-      timeRange: slot,
-      status: 'available',
-    }));
-
     const updates = {
       name,
       rent,
@@ -131,7 +125,6 @@ export const editTurf = async (req, res) => {
       description,
       address,
       pincode,
-      slots,
       assignedTo: userId,
       city,
     };
@@ -146,17 +139,14 @@ export const editTurf = async (req, res) => {
       updates.imgLink = imgLink;
     }
 
-    let _id = id
-
-    let updatedTurf = await turf.findByIdAndUpdate(_id, updates, { new: true });
-    let turfId = updatedTurf._id;
-    await createSlotsForSpecificTurf(turfId);
+    const updatedTurf = await turf.findByIdAndUpdate(id, updates, { new: true });
 
     return res.status(200).json({ msg: 'Turf updated successfully', ts: 'success' });
   } catch (error) {
     return res.status(500).json({ msg: 'Server error, try again', ts: 'error' });
   }
 };
+
 
 // delete turf ==
 export const deleteTurf = async (req, res) => {

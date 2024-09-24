@@ -12,8 +12,7 @@ function EditTurf() {
   const fetchTurfData = async () => {
     try {
       const response = await axiosInstance.get(`/api/turf/getTurf/${id}`);
-     console.log(response.data.turfs);
-     
+      console.log(response.data.turfs);
       return response.data.turfs;
     } catch (error) {
       throw new Error(error.message);
@@ -37,16 +36,10 @@ function EditTurf() {
     description: '',
     address: '',
     pincode: '',
-    slots: [],
   });
+  
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState('');
-
-  const timeSlots = Array.from({ length: 23 }, (_, i) => ({
-    start: `${i + 1}:00`,
-    end: `${i + 2}:00`,
-    value: `${i + 1}:00 - ${i + 2}:00`,
-  }));
 
   useEffect(() => {
     const loadImage = async (url) => {
@@ -68,7 +61,6 @@ function EditTurf() {
         description: turfData.description,
         address: turfData.address,
         pincode: turfData.pincode,
-        slots: turfData.slots,
       });
 
       if (turfData.imgLink) {
@@ -88,25 +80,15 @@ function EditTurf() {
     setPreview(URL.createObjectURL(file));
   };
 
-  const handleSlotClick = (slotValue) => {
-    setFormData((prev) => {
-      const newSlots = prev.slots.includes(slotValue)
-        ? prev.slots.filter((s) => s !== slotValue)
-        : [...prev.slots, slotValue];
-      return { ...prev, slots: newSlots };
-    });
-  };
-
   const updateTurfData = async (formData) => {
     try {
       const config = {
         headers: { 'Content-Type': 'multipart/form-data' },
       };
-      const response = await axiosInstance.patch(`/api/turf/${id}`, formData, config);
+      const response = await axiosInstance.patch(`/api/turf/editTurf/${id}`, formData, config);
       return response.data;
     } catch (error) {
       console.log(error);
-      
     }
   };
 
@@ -114,12 +96,11 @@ function EditTurf() {
     onSuccess: (data) => {
       toast.success(data.msg);
       setTimeout(() => {
-        navigate('/manager/assignedTurf');
+        navigate('/admin/allTurf');
       }, 1000);
     },
     onError: (error) => {
-      console.log(error);
-     
+      navigate('/admin/allTurf');
     }
   });
 
@@ -133,7 +114,6 @@ function EditTurf() {
     newFormData.append('description', formData.description);
     newFormData.append('address', formData.address);
     newFormData.append('pincode', formData.pincode);
-    newFormData.append('slots', JSON.stringify(formData.slots));
     
     if (image) {
       newFormData.append('file', image);
@@ -143,7 +123,6 @@ function EditTurf() {
       await mutation.mutateAsync(newFormData);
     } catch (error) {
       console.log(error);
-      
       toast.error(error.message);
     }
   };
@@ -162,7 +141,7 @@ function EditTurf() {
   }
 
   return (
-    <div className="mt-10 p-4 shadow-lg m-4 ">
+    <div className="mt-10 p-4 shadow-lg m-4">
       <h1 className="text-3xl font-bold text-accent mb-4">Edit Turf</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -174,7 +153,7 @@ function EditTurf() {
 
         {preview && (
           <div className="w-full h-80 my-4 overflow-hidden">
-            <img src={preview} alt="Image Preview" className=" h-80  border rounded-md" />
+            <img src={preview} alt="Image Preview" className="h-80 border rounded-md" />
           </div>
         )}
 
@@ -216,7 +195,7 @@ function EditTurf() {
           value={formData.description}
           onChange={handleChange}
           placeholder="Description"
-          className=" border-accent w-full p-2 border rounded-md"
+          className="border-accent w-full p-2 border rounded-md"
           required
         />
 
@@ -239,22 +218,6 @@ function EditTurf() {
           className="border-accent w-full p-2 border rounded-md"
           required
         />
-
-        <h2 className="text-2xl text-accent font-bold">Select time slots you like to make available for booking</h2>
-
-        <div className="flex flex-wrap p-4 mt-1">
-          {timeSlots.map((slot) => (
-            <button
-              key={slot.value}
-              type="button"
-              onClick={() => handleSlotClick(slot.value)}
-              className={`mr-2 w-32 rounded-2xl p-2 flex justify-center text-center mb-2 cursor-pointer font-bold
-                ${formData.slots.includes(slot.value) ? 'bg-gray-400 text-black' : 'bg-accent text-secondary'}`}
-            >
-              {slot.value}
-            </button>
-          ))}
-        </div>
 
         <button type="submit" className="w-full p-2 bg-accent text-secondary rounded-md font-bold">Update Turf</button>
       </form>
